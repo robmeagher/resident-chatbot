@@ -236,7 +236,8 @@
           body: JSON.stringify({ messages: history }),
         });
         const data = await res.json();
-        const raw = data.content?.[0]?.text || 'Sorry, something went wrong.';
+        console.log('API response:', JSON.stringify(data));
+        const raw = data.content?.[0]?.text || data.error || 'Sorry, something went wrong.';
         typing.remove();
         const matchData = extractMatch(raw);
         const clean = raw.replace(/<match>[\s\S]*?<\/match>/g, '').trim();
