@@ -8,7 +8,7 @@ module.exports = async function handler(req, res) {
   const { messages } = req.body;
 
   const payload = JSON.stringify({
-    model: 'claude-sonnet-4-20250514',
+    model: 'claude-sonnet-4-5',
     max_tokens: 1000,
     system: `You are a friendly, helpful property management assistant helping residents identify the correct maintenance category for their home issue. Ask one question at a time to understand their issue, then match it to the correct category. Be warm and concise. Share any relevant tips naturally during conversation.
 
