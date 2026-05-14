@@ -1,5 +1,6 @@
 {
   "name": "resident-chatbot",
   "version": "1.0.0",
-  "description": "Resident maintenance issue chatbot"
+  "description": "Resident maintenance issue chatbot",
+  "type": "module"
 }
