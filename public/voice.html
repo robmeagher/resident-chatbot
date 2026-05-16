@@ -488,7 +488,6 @@
       const categoryData = extractCategory(botRaw);
       if (categoryData && currentCategory === null) {
         currentCategory = categoryData.category;
-        // Don't output match yet — switch to detail phase seamlessly
       }
 
       // Check for full match (detail phase)
@@ -496,18 +495,25 @@
       if (matchData) {
         loggedIssues.push(matchData);
         addIssueCard(matchData, loggedIssues.length);
-        // Reset to classify phase for next issue
         currentCategory = null;
       }
 
-      // Check for end call signal
+      // Always speak the response first
+      setStatus('speaking', 'Speaking...');
+      await speak(botRaw);
+      busy = false;
+
+      // Then check if call should end
       if (botRaw.includes('<endcall/>')) {
-        setStatus('speaking', 'Speaking...');
-        await speak(botRaw);
-        busy = false;
-        // Small delay to ensure all cards are rendered before ending
         setTimeout(() => endCall(), 300);
         return;
+      }
+
+      // Otherwise continue listening
+      if (callActive) {
+        setStatus('listening', 'Listening...');
+        await startListening();
+        startInactivityWatch();
       }
 
       setStatus('speaking', 'Speaking...');
