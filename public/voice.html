@@ -18,7 +18,7 @@
       padding: 24px 16px;
     }
 
-    .container { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 16px; align-items: center; }
+    .container { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 14px; align-items: center; }
 
     .header { text-align: center; }
     .header img { height: 52px; width: auto; margin: 0 auto 14px; display: block; }
@@ -26,17 +26,12 @@
     .header p { font-size: 13px; color: #9ca3af; }
 
     .phone-card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 24px;
-      padding: 32px 24px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 24px;
+      background: #fff; border: 1px solid #e5e7eb; border-radius: 24px;
+      padding: 32px 24px; width: 100%;
+      display: flex; flex-direction: column; align-items: center; gap: 24px;
     }
 
+    /* Start screen */
     .start-screen { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 8px 0; }
     .start-icon { width: 64px; height: 64px; border-radius: 50%; background: #f3f4f6; display: flex; align-items: center; justify-content: center; font-size: 28px; }
     .start-title { font-size: 16px; font-weight: 500; color: #111827; text-align: center; }
@@ -45,61 +40,74 @@
       background: #111827; color: #fff; border: none; border-radius: 50px;
       padding: 12px 32px; font-size: 15px; font-weight: 500;
       cursor: pointer; font-family: inherit;
-      display: flex; align-items: center; gap: 8px;
-      transition: background 0.2s;
+      display: flex; align-items: center; gap: 8px; transition: background 0.2s;
     }
     .start-btn:hover { background: #1f2937; }
 
+    /* Call screen */
     .call-screen { display: none; flex-direction: column; align-items: center; gap: 20px; width: 100%; }
 
-    .status-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
     .status-indicator { display: flex; align-items: center; gap: 8px; background: #f9fafb; border-radius: 50px; padding: 6px 14px; }
     .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #d1d5db; flex-shrink: 0; transition: background 0.3s; }
-    .status-dot.listening { background: #22c55e; animation: pulse-dot 1s infinite; }
-    .status-dot.thinking { background: #f59e0b; }
-    .status-dot.speaking { background: #3b82f6; animation: pulse-dot 1s infinite; }
-    @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
+    .status-dot.listening { background: #22c55e; animation: pdot 1s infinite; }
+    .status-dot.thinking  { background: #f59e0b; }
+    .status-dot.speaking  { background: #3b82f6; animation: pdot 1s infinite; }
+    @keyframes pdot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
     .status-text { font-size: 13px; color: #374151; font-weight: 500; }
 
     .visualizer { display: flex; align-items: center; justify-content: center; gap: 3px; height: 32px; opacity: 0; transition: opacity 0.3s; }
     .visualizer.active { opacity: 1; }
     .bar { width: 3px; border-radius: 2px; background: #22c55e; height: 4px; transition: height 0.1s; }
 
+    .timeout-bar { width: 100%; height: 3px; background: #f3f4f6; border-radius: 2px; overflow: hidden; display: none; }
+    .timeout-fill { height: 100%; background: #f59e0b; border-radius: 2px; }
+
     .end-btn {
       width: 56px; height: 56px; border-radius: 50%;
-      background: #ef4444; color: white; border: none;
-      font-size: 22px; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
+      background: #ef4444; color: white; border: none; font-size: 22px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
       transition: background 0.2s; box-shadow: 0 2px 8px rgba(239,68,68,0.3);
     }
     .end-btn:hover { background: #dc2626; }
 
     .transcript-wrap { width: 100%; }
     .transcript-label { font-size: 10px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-    .transcript { background: #f9fafb; border: 1px solid #f3f4f6; border-radius: 12px; padding: 12px 14px; min-height: 80px; max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+    .transcript {
+      background: #f9fafb; border: 1px solid #f3f4f6; border-radius: 12px;
+      padding: 12px 14px; min-height: 80px; max-height: 180px;
+      overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
+    }
     .transcript-empty { font-size: 13px; color: #d1d5db; text-align: center; margin: auto; }
     .t-line { font-size: 13px; line-height: 1.5; }
     .t-line .speaker { font-size: 10px; color: #9ca3af; display: block; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
     .t-line.resident .text { color: #111827; }
     .t-line.bot .text { color: #2563eb; }
 
-    .timeout-bar { width: 100%; height: 3px; background: #f3f4f6; border-radius: 2px; overflow: hidden; display: none; }
-    .timeout-fill { height: 100%; background: #f59e0b; border-radius: 2px; transition: width linear; }
+    /* Issue cards — stacked */
+    .issues-stack { width: 100%; display: flex; flex-direction: column; gap: 10px; }
 
-    .result-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; width: 100%; }
-    .result-bar { height: 3px; background: #22c55e; }
-    .result-inner { padding: 14px 16px; }
-    .result-label-text { font-size: 10px; letter-spacing: 0.12em; color: #9ca3af; text-transform: uppercase; margin-bottom: 10px; }
-    .result-fields { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
-    .result-field { background: #f9fafb; border-radius: 8px; padding: 7px 11px; }
+    .issue-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; width: 100%; }
+    .issue-bar { height: 3px; background: #22c55e; }
+    .issue-inner { padding: 14px 16px; }
+    .issue-number { font-size: 10px; letter-spacing: 0.12em; color: #9ca3af; text-transform: uppercase; margin-bottom: 10px; }
+    .issue-fields { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+    .issue-field { background: #f9fafb; border-radius: 8px; padding: 7px 11px; }
     .field-label { font-size: 10px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px; }
     .field-value { font-size: 13px; font-weight: 500; color: #111827; }
-    .result-summary-wrap { border-top: 1px solid #f3f4f6; padding-top: 10px; margin-top: 10px; }
+    .issue-summary-wrap { border-top: 1px solid #f3f4f6; padding-top: 10px; margin-top: 10px; }
     .summary-label { font-size: 10px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
     .summary-text { font-size: 12px; color: #6b7280; line-height: 1.6; }
-    .result-success { background: #f0fdf4; border-radius: 8px; padding: 9px 12px; font-size: 13px; color: #15803d; font-weight: 500; margin-top: 10px; }
 
-    .new-call-btn { background: none; border: none; color: #9ca3af; font-size: 12px; cursor: pointer; font-family: inherit; text-decoration: underline; }
+    .submit-bar {
+      background: #f0fdf4; border-radius: 8px; padding: 10px 14px;
+      font-size: 13px; color: #15803d; font-weight: 500;
+      width: 100%; text-align: center;
+    }
+
+    .new-call-btn {
+      background: none; border: none; color: #9ca3af; font-size: 12px;
+      cursor: pointer; font-family: inherit; text-decoration: underline;
+    }
     .new-call-btn:hover { color: #6b7280; }
 
     ::-webkit-scrollbar { width: 4px; }
@@ -124,11 +132,9 @@
     </div>
 
     <div class="call-screen" id="callScreen">
-      <div class="status-wrap">
-        <div class="status-indicator">
-          <div class="status-dot" id="statusDot"></div>
-          <div class="status-text" id="statusText">Connecting...</div>
-        </div>
+      <div class="status-indicator">
+        <div class="status-dot" id="statusDot"></div>
+        <div class="status-text" id="statusText">Connecting...</div>
       </div>
 
       <div class="visualizer" id="visualizer">
@@ -153,15 +159,11 @@
     </div>
   </div>
 
-  <div class="result-card" id="resultCard" style="display:none">
-    <div class="result-bar"></div>
-    <div class="result-inner">
-      <p class="result-label-text">Issue Identified</p>
-      <div class="result-fields" id="resultFields"></div>
-      <div id="resultSummary"></div>
-      <div class="result-success">✓ Ready to submit in Quickbase</div>
-    </div>
-  </div>
+  <!-- Stacked issue cards rendered here -->
+  <div class="issues-stack" id="issuesStack" style="display:none"></div>
+
+  <!-- Submit bar shown when at least one issue logged -->
+  <div class="submit-bar" id="submitBar" style="display:none"></div>
 
   <button class="new-call-btn" id="newCallBtn" style="display:none" onclick="resetAll()">Start new call</button>
 
@@ -169,30 +171,32 @@
 <script>
   // ── Constants ──────────────────────────────────────────────────────────────
   const SILENCE_THRESHOLD = 0.012;
-  const SILENCE_DURATION  = 4000;   // 4s — more natural pause time
-  const INACTIVITY_MS     = 7000;   // 7s before "still there?"
-  const DISCONNECT_MS     = 10000;  // 10s after "still there?" before hangup
+  const SILENCE_DURATION  = 4000;
+  const INACTIVITY_MS     = 7000;
+  const DISCONNECT_MS     = 10000;
 
   // ── State ──────────────────────────────────────────────────────────────────
-  let micStream        = null;   // single persistent mic stream
-  let mediaRecorder    = null;
-  let audioChunks      = [];
-  let audioCtx         = null;
-  let analyserNode     = null;
-  let silenceTimer     = null;
-  let inactivityTimer  = null;
-  let stillThereTimer  = null;
-  let vizInterval      = null;
-  let rafId            = null;
-  let history          = [];
-  let detectedLang     = 'en';
-  let matched          = false;
-  let busy             = false;
-  let listening        = false;
-  let callActive       = false;
-  let currentAudio     = null;
+  let micStream       = null;
+  let mediaRecorder   = null;
+  let audioChunks     = [];
+  let audioCtx        = null;
+  let analyserNode    = null;
+  let silenceTimer    = null;
+  let inactivityTimer = null;
+  let stillThereTimer = null;
+  let vizInterval     = null;
+  let rafId           = null;
+  let currentAudio    = null;
 
-  // ── Status UI ──────────────────────────────────────────────────────────────
+  let history         = [];       // full conversation history
+  let detectedLang    = 'en';
+  let loggedIssues    = [];       // array of matched issues this call
+  let currentCategory = null;     // null = classify phase, string = detail phase
+  let callActive      = false;
+  let busy            = false;
+  let listening       = false;
+
+  // ── UI helpers ─────────────────────────────────────────────────────────────
   function setStatus(state, text) {
     document.getElementById('statusDot').className = 'status-dot ' + state;
     document.getElementById('statusText').textContent = text;
@@ -213,6 +217,48 @@
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
+  // ── Issue cards ────────────────────────────────────────────────────────────
+  function addIssueCard(data, index) {
+    const stack = document.getElementById('issuesStack');
+    stack.style.display = 'flex';
+
+    const card = document.createElement('div');
+    card.className = 'issue-card';
+    card.id = `issue-card-${index}`;
+
+    let summaryHtml = '';
+    if (data.summary) {
+      summaryHtml = `
+        <div class="issue-summary-wrap">
+          <div class="summary-label">Issue Description</div>
+          <div class="summary-text">${esc(data.summary)}</div>
+        </div>`;
+    }
+
+    card.innerHTML = `
+      <div class="issue-bar"></div>
+      <div class="issue-inner">
+        <div class="issue-number">Issue #${index}</div>
+        <div class="issue-fields">
+          <div class="issue-field"><div class="field-label">Category</div><div class="field-value">${esc(data.category)}</div></div>
+          <div class="issue-field"><div class="field-label">Subcategory</div><div class="field-value">${esc(data.subcategory)}</div></div>
+          <div class="issue-field"><div class="field-label">Issue</div><div class="field-value">${esc(data.issue)}</div></div>
+        </div>
+        ${summaryHtml}
+      </div>`;
+
+    stack.appendChild(card);
+    updateSubmitBar();
+  }
+
+  function updateSubmitBar() {
+    const bar = document.getElementById('submitBar');
+    const count = loggedIssues.length;
+    if (count === 0) { bar.style.display = 'none'; return; }
+    bar.style.display = 'block';
+    bar.textContent = `✓ ${count} issue${count > 1 ? 's' : ''} ready to submit in Quickbase`;
+  }
+
   // ── Visualizer ─────────────────────────────────────────────────────────────
   function startViz() {
     const bars = [1,2,3,4,5,6,7].map(i => document.getElementById('b'+i));
@@ -229,8 +275,7 @@
   }
 
   function stopViz() {
-    clearInterval(vizInterval);
-    vizInterval = null;
+    clearInterval(vizInterval); vizInterval = null;
     document.getElementById('visualizer').classList.remove('active');
     [1,2,3,4,5,6,7].forEach(i => { document.getElementById('b'+i).style.height = '4px'; });
   }
@@ -253,7 +298,7 @@
     document.getElementById('timeoutFill').style.width = '100%';
   }
 
-  // ── Timer helpers ──────────────────────────────────────────────────────────
+  // ── Inactivity timers ──────────────────────────────────────────────────────
   function clearInactivityTimers() {
     clearTimeout(inactivityTimer);
     clearTimeout(stillThereTimer);
@@ -263,11 +308,11 @@
   }
 
   function startInactivityWatch() {
-    if (!callActive || matched) return;
+    if (!callActive) return;
     clearInactivityTimers();
 
     inactivityTimer = setTimeout(async () => {
-      if (!callActive || matched || listening || busy) return;
+      if (!callActive || listening || busy) return;
       const phrase = detectedLang === 'es' ? '¿Sigues ahí?' : 'Are you still there?';
       addLine('bot', phrase);
       showTimeoutBar(DISCONNECT_MS);
@@ -276,7 +321,7 @@
       setStatus('listening', 'Listening...');
 
       stillThereTimer = setTimeout(async () => {
-        if (!callActive || matched || listening || busy) return;
+        if (!callActive || listening || busy) return;
         const bye = detectedLang === 'es'
           ? 'Parece que nos desconectamos. ¡Que tengas un buen día!'
           : 'Looks like we got disconnected. Feel free to call back anytime!';
@@ -284,11 +329,10 @@
         await speak(bye);
         endCall();
       }, DISCONNECT_MS);
-
     }, INACTIVITY_MS);
   }
 
-  // ── Mic stream (acquired once, reused) ─────────────────────────────────────
+  // ── Mic ────────────────────────────────────────────────────────────────────
   async function getMicStream() {
     if (micStream && micStream.active) return micStream;
     micStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
@@ -304,8 +348,9 @@
     setStatus('thinking', 'Connecting...');
 
     try {
-      await getMicStream(); // acquire mic upfront
-      const greeting = await getChat([{ role: 'user', content: 'Hello, I need to report a maintenance issue.' }]);
+      await getMicStream();
+      const initMsg = [{ role: 'user', content: 'Hello, I need to report a maintenance issue.' }];
+      const greeting = await callClassify(initMsg);
       if (greeting) {
         history.push({ role: 'user', content: 'Hello, I need to report a maintenance issue.' });
         history.push({ role: 'assistant', content: greeting });
@@ -323,23 +368,18 @@
     }
 
     busy = false;
-    if (callActive && !matched) {
-      await startListening();
-    }
+    if (callActive) await startListening();
   }
 
-  // ── Listening cycle ────────────────────────────────────────────────────────
+  // ── Listening ──────────────────────────────────────────────────────────────
   async function startListening() {
-    if (!callActive || matched || busy || listening) return;
-
+    if (!callActive || busy || listening) return;
     clearInactivityTimers();
     clearTimeout(silenceTimer);
     silenceTimer = null;
 
     try {
       const stream = await getMicStream();
-
-      // Fresh AudioContext each listen cycle
       if (audioCtx) { try { audioCtx.close(); } catch(_){} }
       audioCtx = new AudioContext();
       const source = audioCtx.createMediaStreamSource(stream);
@@ -348,45 +388,31 @@
       source.connect(analyserNode);
 
       audioChunks = [];
-
-      // Pick best supported mime type
       const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
         ? 'audio/webm;codecs=opus'
-        : MediaRecorder.isTypeSupported('audio/webm')
-          ? 'audio/webm'
-          : 'audio/ogg';
+        : MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/ogg';
 
       mediaRecorder = new MediaRecorder(stream, { mimeType });
       mediaRecorder.ondataavailable = e => { if (e.data && e.data.size > 0) audioChunks.push(e.data); };
       mediaRecorder.onstop = onRecordingStop;
-      mediaRecorder.onerror = e => {
-        console.error('MediaRecorder error:', e);
-        listening = false;
-        busy = false;
-        if (callActive && !matched) setTimeout(() => startListening(), 500);
-      };
-
+      mediaRecorder.onerror = () => { listening = false; busy = false; if (callActive) setTimeout(() => startListening(), 500); };
       mediaRecorder.start(100);
+
       listening = true;
       setStatus('listening', 'Listening...');
       startViz();
       cancelAnimationFrame(rafId);
       monitorSilence();
-
     } catch (err) {
       console.error('startListening error:', err);
-      listening = false;
-      busy = false;
-      setStatus('idle', 'Ready');
+      listening = false; busy = false;
     }
   }
 
   function monitorSilence() {
     if (!listening || !analyserNode) return;
-
     const data = new Uint8Array(analyserNode.fftSize);
     analyserNode.getByteTimeDomainData(data);
-
     let sum = 0;
     for (let i = 0; i < data.length; i++) sum += Math.abs(data[i] - 128);
     const level = sum / data.length / 128;
@@ -394,61 +420,34 @@
     if (level < SILENCE_THRESHOLD) {
       if (!silenceTimer) {
         silenceTimer = setTimeout(() => {
-          if (listening && audioChunks.length > 2) {
-            stopListening();
-          } else {
-            silenceTimer = null;
-          }
+          if (listening && audioChunks.length > 2) stopListening();
+          else silenceTimer = null;
         }, SILENCE_DURATION);
       }
     } else {
-      if (silenceTimer) {
-        clearTimeout(silenceTimer);
-        silenceTimer = null;
-      }
+      if (silenceTimer) { clearTimeout(silenceTimer); silenceTimer = null; }
     }
-
-    if (listening) {
-      rafId = requestAnimationFrame(monitorSilence);
-    }
+    if (listening) rafId = requestAnimationFrame(monitorSilence);
   }
 
   function stopListening() {
     if (!listening) return;
     listening = false;
     busy = true;
-
-    clearTimeout(silenceTimer);
-    silenceTimer = null;
+    clearTimeout(silenceTimer); silenceTimer = null;
     cancelAnimationFrame(rafId);
     stopViz();
-
-    // Close audio context
-    if (audioCtx) {
-      try { audioCtx.close(); } catch(_){}
-      audioCtx = null;
-      analyserNode = null;
-    }
-
-    // Stop recorder — triggers onstop
+    if (audioCtx) { try { audioCtx.close(); } catch(_){} audioCtx = null; analyserNode = null; }
     if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-      try { mediaRecorder.stop(); } catch(e) { console.error('stop error:', e); onRecordingStop(); }
-    } else {
-      onRecordingStop();
-    }
-
+      try { mediaRecorder.stop(); } catch(e) { onRecordingStop(); }
+    } else { onRecordingStop(); }
     setStatus('thinking', 'Processing...');
   }
 
   // ── Process audio ──────────────────────────────────────────────────────────
   async function onRecordingStop() {
     if (!callActive) return;
-
-    if (audioChunks.length === 0) {
-      busy = false;
-      if (callActive && !matched) await startListening();
-      return;
-    }
+    if (audioChunks.length === 0) { busy = false; if (callActive) await startListening(); return; }
 
     try {
       const mimeType = mediaRecorder ? mediaRecorder.mimeType : 'audio/webm';
@@ -457,45 +456,55 @@
 
       // Transcribe
       const tRes = await fetch('/api/transcribe', {
-        method: 'POST',
-        headers: { 'Content-Type': mimeType },
-        body: blob,
+        method: 'POST', headers: { 'Content-Type': mimeType }, body: blob,
       });
-
-      if (!tRes.ok) throw new Error('Transcribe failed: ' + tRes.status);
-
+      if (!tRes.ok) throw new Error('Transcribe failed');
       const tData = await tRes.json();
       const userText = (tData.transcript || '').trim();
       if (tData.detectedLanguage) detectedLang = tData.detectedLanguage;
 
-      if (!userText) {
-        busy = false;
-        if (callActive && !matched) await startListening();
-        return;
-      }
+      if (!userText) { busy = false; if (callActive) await startListening(); return; }
 
       addLine('resident', userText);
       history.push({ role: 'user', content: userText });
 
-      // Get Claude response
       setStatus('thinking', 'Thinking...');
-      const botRaw = await getChat(history);
-      if (!botRaw) throw new Error('No Claude response');
+
+      // Route to classify or detail phase
+      let botRaw;
+      if (currentCategory === null) {
+        botRaw = await callClassify(history);
+      } else {
+        botRaw = await callDetail(history, currentCategory);
+      }
+
+      if (!botRaw) throw new Error('No response');
 
       const botClean = clean(botRaw);
-      const matchData = extractMatch(botRaw);
       history.push({ role: 'assistant', content: botRaw });
       addLine('bot', botClean);
 
-      if (matchData) showResult(matchData);
+      // Check for category identification (classify phase)
+      const categoryData = extractCategory(botRaw);
+      if (categoryData && currentCategory === null) {
+        currentCategory = categoryData.category;
+        // Don't output match yet — switch to detail phase seamlessly
+      }
 
-      // Speak response
+      // Check for full match (detail phase)
+      const matchData = extractMatch(botRaw);
+      if (matchData) {
+        loggedIssues.push(matchData);
+        addIssueCard(matchData, loggedIssues.length);
+        // Reset to classify phase for next issue
+        currentCategory = null;
+      }
+
       setStatus('speaking', 'Speaking...');
       await speak(botRaw);
 
       busy = false;
-
-      if (!matched && callActive) {
+      if (callActive) {
         setStatus('listening', 'Listening...');
         await startListening();
         startInactivityWatch();
@@ -503,24 +512,30 @@
 
     } catch (err) {
       console.error('onRecordingStop error:', err);
-      busy = false;
-      audioChunks = [];
-      if (callActive && !matched) {
-        setStatus('listening', 'Listening...');
-        // Small delay before restarting to avoid rapid retry loops
-        setTimeout(() => startListening(), 800);
-      }
+      busy = false; audioChunks = [];
+      if (callActive) setTimeout(() => startListening(), 800);
     }
   }
 
   // ── API calls ──────────────────────────────────────────────────────────────
-  async function getChat(messages) {
-    const res = await fetch('/api/voicechat', {
+  async function callClassify(messages) {
+    const res = await fetch('/api/voicechat-classify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages, detectedLanguage: detectedLang }),
+      body: JSON.stringify({ messages, detectedLanguage: detectedLang, loggedIssues }),
     });
-    if (!res.ok) throw new Error('voicechat failed: ' + res.status);
+    if (!res.ok) throw new Error('classify failed: ' + res.status);
+    const data = await res.json();
+    return data.content?.[0]?.text || null;
+  }
+
+  async function callDetail(messages, category) {
+    const res = await fetch('/api/voicechat-detail', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages, detectedLanguage: detectedLang, category, loggedIssues }),
+    });
+    if (!res.ok) throw new Error('detail failed: ' + res.status);
     const data = await res.json();
     return data.content?.[0]?.text || null;
   }
@@ -528,17 +543,15 @@
   async function speak(text) {
     try {
       const stripped = text
+        .replace(/<category>[\s\S]*?<\/category>/g, '')
         .replace(/<match>[\s\S]*?<\/match>/g, '')
         .replace(/https?:\/\/\S+/g, '')
-        .replace(/\*\*/g, '').replace(/\*/g, '')
-        .trim();
+        .replace(/\*\*/g,'').replace(/\*/g,'').trim();
       if (!stripped) return;
-
       if (currentAudio) { try { currentAudio.pause(); } catch(_){} currentAudio = null; }
 
       const res = await fetch('/api/speak', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: stripped }),
       });
       if (!res.ok) return;
@@ -546,91 +559,68 @@
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
       currentAudio = new Audio(url);
-      currentAudio.playbackRate = 1.0;
-
-      await new Promise((resolve) => {
+      await new Promise(resolve => {
         currentAudio.onended = () => { URL.revokeObjectURL(url); resolve(); };
         currentAudio.onerror = () => { URL.revokeObjectURL(url); resolve(); };
         currentAudio.play().catch(resolve);
       });
       currentAudio = null;
-    } catch (err) {
-      console.error('speak error:', err);
-    }
+    } catch (err) { console.error('speak error:', err); }
   }
 
-  // ── Result ─────────────────────────────────────────────────────────────────
-  function showResult(data) {
-    matched = true;
-    clearInactivityTimers();
-    setStatus('idle', 'Issue identified');
-
-    document.getElementById('resultFields').innerHTML = [
-      { label: 'Category', val: data.category },
-      { label: 'Subcategory', val: data.subcategory },
-      { label: 'Issue', val: data.issue },
-    ].map(f => `<div class="result-field"><div class="field-label">${f.label}</div><div class="field-value">${esc(f.val)}</div></div>`).join('');
-
-    if (data.summary) {
-      document.getElementById('resultSummary').innerHTML =
-        `<div class="result-summary-wrap"><div class="summary-label">Issue Description</div><div class="summary-text">${esc(data.summary)}</div></div>`;
-    }
-
-    document.getElementById('resultCard').style.display = 'block';
-    document.getElementById('newCallBtn').style.display = 'block';
-  }
-
-  // ── End / reset ────────────────────────────────────────────────────────────
-  function endCall() {
-    callActive = false;
-    matched = true;
-    listening = false;
-    busy = false;
-
-    clearInactivityTimers();
-    clearTimeout(silenceTimer);
-    cancelAnimationFrame(rafId);
-    stopViz();
-
-    if (currentAudio) { try { currentAudio.pause(); } catch(_){} currentAudio = null; }
-    if (mediaRecorder && mediaRecorder.state !== 'inactive') { try { mediaRecorder.stop(); } catch(_){} }
-    if (audioCtx) { try { audioCtx.close(); } catch(_){} audioCtx = null; analyserNode = null; }
-    if (micStream) { micStream.getTracks().forEach(t => t.stop()); micStream = null; }
-
-    setStatus('idle', 'Call ended');
-    document.getElementById('newCallBtn').style.display = 'block';
-  }
-
-  function resetAll() {
-    endCall();
-    callActive = false;
-    matched = false;
-    busy = false;
-    listening = false;
-    history = [];
-    detectedLang = 'en';
-    audioChunks = [];
-
-    document.getElementById('callScreen').style.display = 'none';
-    document.getElementById('startScreen').style.display = 'flex';
-    document.getElementById('resultCard').style.display = 'none';
-    document.getElementById('resultFields').innerHTML = '';
-    document.getElementById('resultSummary').innerHTML = '';
-    document.getElementById('newCallBtn').style.display = 'none';
-    document.getElementById('transcript').innerHTML =
-      '<div class="transcript-empty" id="transcriptEmpty">Listening for your voice...</div>';
-    setStatus('idle', 'Connecting...');
-  }
-
-  // ── Helpers ────────────────────────────────────────────────────────────────
+  // ── Parsers ────────────────────────────────────────────────────────────────
   function clean(text) {
-    return text.replace(/<match>[\s\S]*?<\/match>/g,'').replace(/\*\*/g,'').replace(/\*/g,'').trim();
+    return text
+      .replace(/<category>[\s\S]*?<\/category>/g,'')
+      .replace(/<match>[\s\S]*?<\/match>/g,'')
+      .replace(/\*\*/g,'').replace(/\*/g,'').trim();
+  }
+
+  function extractCategory(text) {
+    const m = text.match(/<category>([\s\S]*?)<\/category>/);
+    if (m) { try { return JSON.parse(m[1]); } catch(_){} }
+    return null;
   }
 
   function extractMatch(text) {
     const m = text.match(/<match>([\s\S]*?)<\/match>/);
     if (m) { try { return JSON.parse(m[1]); } catch(_){} }
     return null;
+  }
+
+  // ── End / reset ────────────────────────────────────────────────────────────
+  function endCall() {
+    callActive = false;
+    listening = false;
+    busy = false;
+    clearInactivityTimers();
+    clearTimeout(silenceTimer);
+    cancelAnimationFrame(rafId);
+    stopViz();
+    if (currentAudio) { try { currentAudio.pause(); } catch(_){} currentAudio = null; }
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') { try { mediaRecorder.stop(); } catch(_){} }
+    if (audioCtx) { try { audioCtx.close(); } catch(_){} audioCtx = null; analyserNode = null; }
+    if (micStream) { micStream.getTracks().forEach(t => t.stop()); micStream = null; }
+    setStatus('idle', 'Call ended');
+    document.getElementById('newCallBtn').style.display = 'block';
+    updateSubmitBar();
+  }
+
+  function resetAll() {
+    endCall();
+    callActive = false; listening = false; busy = false;
+    history = []; loggedIssues = []; currentCategory = null;
+    detectedLang = 'en'; audioChunks = [];
+
+    document.getElementById('callScreen').style.display = 'none';
+    document.getElementById('startScreen').style.display = 'flex';
+    document.getElementById('issuesStack').style.display = 'none';
+    document.getElementById('issuesStack').innerHTML = '';
+    document.getElementById('submitBar').style.display = 'none';
+    document.getElementById('newCallBtn').style.display = 'none';
+    document.getElementById('transcript').innerHTML =
+      '<div class="transcript-empty" id="transcriptEmpty">Listening for your voice...</div>';
+    setStatus('idle', 'Connecting...');
   }
 </script>
 </body>
