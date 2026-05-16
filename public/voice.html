@@ -500,6 +500,15 @@
         currentCategory = null;
       }
 
+      // Check for end call signal
+      if (botRaw.includes('<endcall/>')) {
+        setStatus('speaking', 'Speaking...');
+        await speak(botRaw);
+        busy = false;
+        endCall();
+        return;
+      }
+
       setStatus('speaking', 'Speaking...');
       await speak(botRaw);
 
