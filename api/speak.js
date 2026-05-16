@@ -18,16 +18,20 @@ module.exports = async function handler(req, res) {
     .replace(/\*/g, '')
     .replace(/<[^>]+>/g, '')
     .replace(/\s+/g, ' ')
+    .replace(/\. /g, '.  ')
+    .replace(/\? /g, '?  ')
+    .replace(/\! /g, '!  ')
     .trim();
+
 
   const voiceId = process.env.ELEVENLABS_VOICE_ID;
   const payload = JSON.stringify({
     text: cleanText,
     model_id: 'eleven_multilingual_v2',
 voice_settings: {
-  stability: 0.4,
+  stability: 0.35,
   similarity_boost: 0.85,
-  style: 0.5,
+  style: 0.45,
   use_speaker_boost: true,
 },
   });
