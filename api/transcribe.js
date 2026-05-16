@@ -12,7 +12,7 @@ module.exports = async function handler(req, res) {
 
     const options = {
       hostname: 'api.deepgram.com',
-      path: '/v1/listen?model=nova-2&language=multi&smart_format=true&detect_language=true',
+      path: '/v1/listen?model=nova-2&language=en&smart_format=true&detect_language=true',
       method: 'POST',
       headers: {
         'Authorization': `Token ${process.env.DEEPGRAM_API_KEY}`,
