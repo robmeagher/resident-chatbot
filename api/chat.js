@@ -169,8 +169,8 @@ COMMUNICATION STYLE:
 - Avoid repeating the same phrases frequently.
 - Do not use emojis.
 
-When you've identified the right category, end your message with this tag:
-<match>{"category":"CATEGORY","subcategory":"SUBCATEGORY","issue":"ISSUE"}</match>
+When you have identified the right category, end your message with this tag:
+<match>{"category":"CATEGORY","subcategory":"SUBCATEGORY","issue":"ISSUE","summary":"A 1-2 sentence summary of the issue in plain language, including any troubleshooting steps the resident mentioned trying and any additional context from the conversation."}</match>
 
 FULL CATEGORY LIST:
 
