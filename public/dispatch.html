@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dispatcher Assistant – Maymont Homes</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f4f5f7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      color: #1a1a2e;
+    }
+
+    .container { width: 100%; max-width: 580px; display: flex; flex-direction: column; gap: 14px; }
+
+    .header { text-align: center; margin-bottom: 4px; }
+    .header img { height: 56px; width: auto; margin: 0 auto 16px; display: block; }
+    .header h1 { font-size: 22px; font-weight: 500; color: #111827; margin-bottom: 4px; }
+    .header p { font-size: 13px; color: #6b7280; }
+
+    .main-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .messages {
+      display: none;
+      overflow-y: auto;
+      padding: 16px;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 460px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .messages.active { display: flex; }
+
+    .welcome {
+      padding: 28px 24px 20px;
+      text-align: center;
+    }
+    .welcome h2 { font-size: 17px; font-weight: 500; color: #111827; margin-bottom: 8px; }
+    .welcome p { font-size: 14px; color: #6b7280; line-height: 1.6; }
+
+    .msg-row { display: flex; align-items: flex-end; gap: 8px; }
+    .msg-row.user { justify-content: flex-end; }
+    .avatar { width: 26px; height: 26px; border-radius: 50%; background: #eff6ff; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+    .bubble { max-width: 80%; padding: 9px 13px; font-size: 14px; line-height: 1.6; }
+    .bubble.assistant { background: #f3f4f6; border-radius: 14px 14px 14px 4px; color: #111827; }
+    .bubble.user { background: #2563eb; border-radius: 14px 14px 4px 14px; color: #fff; }
+
+    .bubble p { margin: 4px 0; }
+    .bubble p:first-child { margin-top: 0; }
+    .bubble p:last-child { margin-bottom: 0; }
+    .bubble ul, .bubble ol { padding-left: 16px; margin: 4px 0; }
+    .bubble li { margin: 2px 0; }
+    .bubble strong { font-weight: 600; }
+
+    .typing-dots { display: flex; gap: 4px; align-items: center; padding: 4px 2px; }
+    .dot { width: 5px; height: 5px; border-radius: 50%; background: #9ca3af; animation: pulse 1.2s infinite; }
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes pulse { 0%,100%{opacity:.3;transform:scale(.8)} 50%{opacity:1;transform:scale(1)} }
+
+    .input-row {
+      padding: 12px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      background: #fff;
+    }
+    textarea {
+      flex: 1;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      color: #111827;
+      background: #f9fafb;
+      resize: none;
+      line-height: 1.5;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+    textarea:focus { border-color: #2563eb; background: #fff; }
+    textarea::placeholder { color: #9ca3af; }
+    .btn-send {
+      background: #2563eb; color: #fff; border: none; border-radius: 8px;
+      padding: 9px 16px; font-size: 14px; font-weight: 500;
+      cursor: pointer; font-family: inherit; white-space: nowrap;
+      transition: background 0.15s; flex-shrink: 0;
+    }
+    .btn-send:hover { background: #1d4ed8; }
+    .btn-send:disabled { background: #e5e7eb; color: #9ca3af; cursor: not-allowed; }
+
+    .new-chat {
+      text-align: center;
+      padding-top: 4px;
+    }
+    .new-chat button {
+      background: none; border: none; color: #9ca3af; font-size: 13px;
+      cursor: pointer; font-family: inherit; text-decoration: underline;
+    }
+    .new-chat button:hover { color: #6b7280; }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 2px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <img src="https://maymonthomes.com/wp-content/uploads/2023/06/logo_2x.png" alt="Maymont Homes" />
+      <h1>Dispatcher Assistant</h1>
+      <p>Ask anything about dispatch decisions, priorities, or maintenance guidelines.</p>
+    </div>
+
+    <div class="main-card">
+      <div class="messages" id="messages"></div>
+
+      <div class="welcome" id="welcome">
+        <h2>What do you need to know?</h2>
+        <p>Ask about priority classification, tech vs vendor, resident responsibilities, chargeback situations, or any policy in the maintenance guidelines.</p>
+      </div>
+
+      <div class="input-row">
+        <textarea
+          id="userInput"
+          placeholder="Ask a question..."
+          rows="1"
+          onkeydown="handleKey(event)"
+          oninput="autoResize(this)"
+          autofocus
+        ></textarea>
+        <button class="btn-send" id="sendBtn" onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+
+    <div class="new-chat">
+      <button onclick="newChat()">Start new conversation</button>
+    </div>
+
+  </div>
+
+  <script>
+    let history = [];
+    let loading = false;
+
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+    }
+
+    function handleKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const text = input.value.trim();
+      if (!text || loading) return;
+
+      const welcome = document.getElementById('welcome');
+      if (welcome) welcome.remove();
+      document.getElementById('messages').classList.add('active');
+
+      input.value = '';
+      input.style.height = 'auto';
+      loading = true;
+      document.getElementById('sendBtn').disabled = true;
+
+      history.push({ role: 'user', content: text });
+      addBubble('user', text);
+      const typing = addTyping();
+
+      try {
+        const res = await fetch('/api/dispatch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: history }),
+        });
+        const data = await res.json();
+        const raw = data.content?.[0]?.text || data.error || 'Sorry, something went wrong. Please try again.';
+        typing.remove();
+        addBubble('assistant', raw);
+        history.push({ role: 'assistant', content: raw });
+      } catch {
+        typing.remove();
+        addBubble('assistant', 'Sorry, something went wrong. Please try again.');
+      }
+
+      loading = false;
+      document.getElementById('sendBtn').disabled = false;
+      input.focus();
+    }
+
+    function addBubble(role, text) {
+      const msgs = document.getElementById('messages');
+      const row = document.createElement('div');
+      row.className = `msg-row ${role}`;
+      if (role === 'assistant') {
+        row.innerHTML = `<div class="avatar">🏠</div><div class="bubble assistant">${formatText(text)}</div>`;
+      } else {
+        row.innerHTML = `<div class="bubble user">${escHtml(text)}</div>`;
+      }
+      msgs.appendChild(row);
+      msgs.scrollTop = msgs.scrollHeight;
+      return row;
+    }
+
+    function addTyping() {
+      const msgs = document.getElementById('messages');
+      const row = document.createElement('div');
+      row.className = 'msg-row';
+      row.innerHTML = `<div class="avatar">🏠</div><div class="bubble assistant"><div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
+      msgs.appendChild(row);
+      msgs.scrollTop = msgs.scrollHeight;
+      return row;
+    }
+
+    function formatText(text) {
+      let html = escHtml(text);
+      // Bold **text**
+      html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      // Bullet points
+      html = html.replace(/^[-•]\s+(.+)$/gm, '<li>$1</li>');
+      // Numbered lists
+      html = html.replace(/^\d+\.\s+(.+)$/gm, '<li>$1</li>');
+      // Wrap list items
+      html = html.replace(/(<li>[\s\S]+?<\/li>)(?!\s*<li>)/g, '<ul>$1</ul>');
+      // Paragraphs from double newlines
+      html = html.split(/\n\n+/).map(p => {
+        p = p.trim();
+        if (!p) return '';
+        if (p.startsWith('<ul>') || p.startsWith('<li>')) return p;
+        return `<p>${p.replace(/\n/g, '<br>')}</p>`;
+      }).filter(Boolean).join('');
+      return html;
+    }
+
+    function escHtml(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function newChat() {
+      history = [];
+      loading = false;
+      document.getElementById('messages').innerHTML = '';
+      document.getElementById('messages').classList.remove('active');
+      document.getElementById('sendBtn').disabled = false;
+      document.getElementById('userInput').value = '';
+      document.getElementById('userInput').style.height = 'auto';
+
+      const card = document.querySelector('.main-card');
+      if (!document.getElementById('welcome')) {
+        const welcome = document.createElement('div');
+        welcome.className = 'welcome';
+        welcome.id = 'welcome';
+        welcome.innerHTML = '<h2>What do you need to know?</h2><p>Ask about priority classification, tech vs vendor, resident responsibilities, chargeback situations, or any policy in the maintenance guidelines.</p>';
+        card.insertBefore(welcome, document.querySelector('.input-row'));
+      }
+      document.getElementById('userInput').focus();
+    }
+  </script>
+</body>
+</html>
