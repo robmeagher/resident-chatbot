@@ -505,7 +505,8 @@
         setStatus('speaking', 'Speaking...');
         await speak(botRaw);
         busy = false;
-        endCall();
+        // Small delay to ensure all cards are rendered before ending
+        setTimeout(() => endCall(), 300);
         return;
       }
 
